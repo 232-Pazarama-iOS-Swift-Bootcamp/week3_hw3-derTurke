@@ -12,12 +12,13 @@ final class MainViewController: UIViewController {
     // MARK: - Properties
     private let mainView = MainView()
     private let networkService = BaseNetworkService()
-    private var podcastResponse: PodcastResponse? {
+    private var allModel: AllModelResponse? {
         didSet {
             mainView.refresh()
         }
     }
     private(set) var titleText: String?
+    
     init(titleText: String) {
         self.titleText = titleText
         super.init(nibName: nil, bundle: nil)
@@ -37,16 +38,15 @@ final class MainViewController: UIViewController {
         searchController.searchBar.placeholder = "Education, Fun..."
         searchController.searchResultsUpdater = self
         navigationItem.searchController = searchController
-        
-        fetchPodcasts()
+        fetchPodcasts(with: titleText ?? "")
     }
     
     // MARK: - Methods
-    private func fetchPodcasts(with text: String = "Podcast") {
-        networkService.request(PodcastRequest(searchText: text)) { result in
+    private func fetchPodcasts(with text: String) {
+        networkService.request(AllRequest(searchText: text, media: (titleText?.lowercased())!)) { result in
             switch result {
             case .success(let response):
-                self.podcastResponse = response
+                self.allModel = response
             case .failure(let error):
                 fatalError(error.localizedDescription)
             }
@@ -58,7 +58,7 @@ final class MainViewController: UIViewController {
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let detailViewController = DetailViewController()
-        detailViewController.podcast = podcastResponse?.results?[indexPath.row]
+        detailViewController.allModel = allModel?.results?[indexPath.row]
         navigationController?.pushViewController(detailViewController, animated: true)
     }
 }
@@ -66,12 +66,12 @@ extension MainViewController: UICollectionViewDelegate {
 // MARK: - UICollectionViewDataSource
 extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        podcastResponse?.results?.count ?? .zero
+        allModel?.results?.count ?? .zero
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! PodcastCollectionViewCell
-        let podcast = podcastResponse?.results?[indexPath.row]
+        let podcast = allModel?.results?[indexPath.row]
         cell.title = podcast?.trackName
         cell.imageView.downloadImage(from: podcast?.artworkLarge)
         return cell

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Podcast: Decodable {
+struct AllModel: Decodable {
     let artistName: String?
     let trackName: String?
     let artworkLarge: URL?
@@ -18,7 +18,7 @@ struct Podcast: Decodable {
     enum CodingKeys: String, CodingKey {
         case artistName
         case trackName
-        case artworkLarge = "artworkUrl600"
+        case artworkLarge = "artworkUrl100"
         case releaseDate
         case country
         case genres

@@ -7,7 +7,12 @@
 
 import UIKit
 
+
+
 final class DetailView: UIView {
+    
+    var dataDelegate: DataDelegate?
+    
     var releaseDate: String? {
         didSet {
             releaseDateKeyLabel.text = "Release Date:"
@@ -82,6 +87,20 @@ final class DetailView: UIView {
         return stackView
     }()
     
+    
+    
+    private var favoriteButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
+        button.setTitle("Add Favorite", for: .normal)
+        button.backgroundColor = .lightGray
+        button.tintColor = .white
+        button.layer.cornerRadius = 12
+        button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
+        button.addTarget(self, action: #selector(didTapFavoriteButton), for: .touchUpInside)
+        return button
+    }()
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -114,9 +133,24 @@ final class DetailView: UIView {
             stackView.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 32.0),
             stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16.0)
         ])
+        
+        
+        addSubview(favoriteButton)
+        favoriteButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            favoriteButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20.0),
+            favoriteButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20.0),
+            favoriteButton.bottomAnchor.constraint(equalTo: self.safeAreaLayoutGuide.bottomAnchor, constant: -20.0),
+            favoriteButton.heightAnchor.constraint(equalToConstant: 40.0),
+        ])
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    @objc func didTapFavoriteButton() {
+        self.dataDelegate?.didTapLikedButton()
+    }
+    
 }

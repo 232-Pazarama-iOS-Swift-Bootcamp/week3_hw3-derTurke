@@ -68,9 +68,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         let nav4 = setupViewController(with: MainViewController(titleText: "Software"), tabBarTitle: "Software", tabBarImage: UIImage(systemName: "command")!, tabBarSelectedImage: nil)
         
-        let nav5 = setupViewController(with: MainViewController(titleText: "Book"), tabBarTitle: "eBook", tabBarImage: UIImage(systemName: "book")!, tabBarSelectedImage: UIImage(systemName: "book.fill")!)
+        let nav5 = setupViewController(with: MainViewController(titleText: "eBook"), tabBarTitle: "eBook", tabBarImage: UIImage(systemName: "book")!, tabBarSelectedImage: UIImage(systemName: "book.fill")!)
         
-        let nav6 = setupViewController(with: MainViewController(titleText: "Favourite"), tabBarTitle: "Favourite", tabBarImage: UIImage(systemName: "heart")!, tabBarSelectedImage: UIImage(systemName: "heart.fill")!)
+        let nav6 = setupViewController(with: FavoriteViewController(), tabBarTitle: "Favourite", tabBarImage: UIImage(systemName: "heart")!, tabBarSelectedImage: UIImage(systemName: "heart.fill")!)
         
         let tabBarController = UITabBarController()
         tabBarController.viewControllers = [nav1,nav2,nav3,nav4,nav5,nav6]

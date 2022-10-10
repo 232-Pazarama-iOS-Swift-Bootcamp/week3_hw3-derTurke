@@ -41,7 +41,6 @@ struct BaseNetworkService: NetworkService {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.allHTTPHeaderFields = request.headers
-        
         URLSession.shared.dataTask(with: urlRequest) { data, response, error in
             if let error = error {
                 return compilation(.failure(error))

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct PodcastResponse: Decodable {
+struct AllModelResponse: Decodable {
     let resultCount: Int?
-    let results: [Podcast]?
+    let results: [AllModel]?
 }

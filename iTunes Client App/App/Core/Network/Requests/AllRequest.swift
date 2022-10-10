@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct PodcastRequest: DataRequest {
+struct AllRequest: DataRequest {
     
     var searchText: String
+    var media: String
     
     var baseURL: String {
         "https://itunes.apple.com"
@@ -21,21 +22,22 @@ struct PodcastRequest: DataRequest {
     
     var queryItems: [String : String] {
         ["term": searchText,
-         "media" : "podcast"]
+         "media" : media]
     }
     
     var method: HTTPMethod {
         .get
     }
     
-    init(searchText: String = "Podcast") {
+    init(searchText: String, media: String) {
         self.searchText = searchText
+        self.media = media
     }
     
-    func decode(_ data: Data) throws -> PodcastResponse {
+    func decode(_ data: Data) throws -> AllModelResponse {
         let decoder = JSONDecoder()
         decoder.keyDecodingStrategy = .convertFromSnakeCase
-        let response = try decoder.decode(PodcastResponse.self, from: data)
+        let response = try decoder.decode(AllModelResponse.self, from: data)
         return response
     }
 }
