@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FavoriteView: UIView {
+final class FavoriteView: UIView {
 
     // MARK: - Properties
     private let cellInset: CGFloat = 8.0

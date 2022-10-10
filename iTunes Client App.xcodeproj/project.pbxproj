@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		3F3DF36C28F411C000DFC86E /* FavoriteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3DF36B28F411C000DFC86E /* FavoriteViewController.swift */; };
-		3F3DF36E28F4120A00DFC86E /* FavoriteModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F3DF36D28F4120A00DFC86E /* FavoriteModel.swift */; };
 		3F3DF37D28F41E9F00DFC86E /* DataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3F3DF37B28F41E9F00DFC86E /* DataModel.xcdatamodeld */; };
 		3FFCC37728F4411300D24DA9 /* FavoriteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFCC37628F4411300D24DA9 /* FavoriteView.swift */; };
 		3FFCC37B28F446EC00D24DA9 /* FavoriteCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FFCC37A28F446EC00D24DA9 /* FavoriteCollectionViewCell.swift */; };
@@ -35,7 +34,6 @@
 
 /* Begin PBXFileReference section */
 		3F3DF36B28F411C000DFC86E /* FavoriteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteViewController.swift; sourceTree = "<group>"; };
-		3F3DF36D28F4120A00DFC86E /* FavoriteModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteModel.swift; sourceTree = "<group>"; };
 		3F3DF37C28F41E9F00DFC86E /* DataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = DataModel.xcdatamodel; sourceTree = "<group>"; };
 		3FFCC37628F4411300D24DA9 /* FavoriteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteView.swift; sourceTree = "<group>"; };
 		3FFCC37A28F446EC00D24DA9 /* FavoriteCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -78,17 +76,8 @@
 			children = (
 				3F3DF36A28F34BB800DFC86E /* Controller */,
 				3F3DF36928F34BB300DFC86E /* View */,
-				3F3DF36828F34BAF00DFC86E /* Model */,
 			);
 			path = Favorite;
-			sourceTree = "<group>";
-		};
-		3F3DF36828F34BAF00DFC86E /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				3F3DF36D28F4120A00DFC86E /* FavoriteModel.swift */,
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		3F3DF36928F34BB300DFC86E /* View */ = {
@@ -410,7 +399,6 @@
 				ED3F0D9A28E9649100E21B48 /* UIImage+Extensions.swift in Sources */,
 				3F3DF37D28F41E9F00DFC86E /* DataModel.xcdatamodeld in Sources */,
 				ED11A83928E99D060036F7DE /* HTTPMethod.swift in Sources */,
-				3F3DF36E28F4120A00DFC86E /* FavoriteModel.swift in Sources */,
 				ED180E6628E815D8001D594F /* SceneDelegate.swift in Sources */,
 				EDA9F61928E8537A00774EEB /* PodcastCollectionViewCell.swift in Sources */,
 			);

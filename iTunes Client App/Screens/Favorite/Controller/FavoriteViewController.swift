@@ -8,8 +8,11 @@
 import UIKit
 import CoreData
 
+protocol FavoriteProtocol {
+    func didTapLikedButton(item: NSManagedObject?)
+}
+
 final class FavoriteViewController: UIViewController {
-    
     // MARK: - Properties
     private let favoriteView = FavoriteView()
     private var favorites = [NSManagedObject]() {
@@ -25,14 +28,20 @@ final class FavoriteViewController: UIViewController {
         view = favoriteView
         favoriteView.setCollectionViewDelegate(self, andDataSource: self)
         
-//        let searchController = UISearchController()
-//        searchController.searchBar.placeholder = "Education, Fun..."
-//        searchController.searchResultsUpdater = self
-//        navigationItem.searchController = searchController
+        let searchController = UISearchController()
+        searchController.searchBar.placeholder = "Education, Fun..."
+        searchController.searchResultsUpdater = self
+        navigationItem.searchController = searchController
+
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         fetchFavorites()
+        
     }
     
     // MARK: - Methods
+    // Fetching Favorites in Core Data
     private func fetchFavorites() {
         guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
@@ -51,11 +60,6 @@ final class FavoriteViewController: UIViewController {
 
 // MARK: - UICollectionViewDelegate
 extension FavoriteViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let detailViewController = DetailViewController()
-//        detailViewController.allModel = allModel?.results?[indexPath.row]
-//        navigationController?.pushViewController(detailViewController, animated: true)
-    }
 }
 
 // MARK: - UICollectionViewDataSource
@@ -66,6 +70,9 @@ extension FavoriteViewController: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! FavoriteCollectionViewCell
+        cell.favorite = favorites[indexPath.row]
+        //Favorite Protocol Delegate
+        cell.favoriteDelegate = self
         cell.title = favorites[indexPath.row].value(forKey: "trackName") as? String
         cell.imageView.downloadImage(from: favorites[indexPath.row].value(forKey: "artworkLarge") as? URL)
         return cell
@@ -77,11 +84,44 @@ extension FavoriteViewController: UICollectionViewDataSource {
 }
 
 // MARK: - UISearchResultsUpdating
-/*extension MainViewController: UISearchResultsUpdating {
+extension FavoriteViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-//        if let text = searchController.searchBar.text, text.count > 1 {
-//            fetchPodcasts(with: text)
-//        }
+        if let text = searchController.searchBar.text?.lowercased(), text.count > 1 {
+            favorites = favorites.filter({ favorite in
+                return (favorite.value(forKey: "trackName") as! String).lowercased().contains(text.lowercased())
+
+            })
+        } else {
+            fetchFavorites()
+        }
     }
-}*/
+}
+
+// MARK: - FavoriteProtocol
+extension FavoriteViewController: FavoriteProtocol {
+    func didTapLikedButton(item: NSManagedObject?) {
+        removeFavoriteItem(item: item)
+    }
+    
+    
+    //Removing Favorite Item in Core Data
+    private func removeFavoriteItem(item: NSManagedObject?) {
+        guard let item = item else {
+            return
+        }
+        let appDelegate = UIApplication.shared.delegate as? AppDelegate
+        let managedContext = appDelegate?.persistentContainer.viewContext
+        managedContext?.delete(item)
+        
+        do {
+            try managedContext?.save()
+            fetchFavorites()
+        } catch {
+            let alert = Helpers().alert(title: "Failed", message: "There was a problem adding the item to your favourites! Please try again.")
+            present(alert, animated: true)
+        }
+    }
+    
+    
+}
 

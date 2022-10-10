@@ -6,8 +6,14 @@
 //
 
 import UIKit
+import CoreData
 
 final class FavoriteCollectionViewCell: UICollectionViewCell {
+    
+    var favoriteDelegate: FavoriteProtocol?
+    
+    var favorite: NSManagedObject?
+    
     var image: UIImage? {
         didSet {
             imageView.image = image
@@ -44,6 +50,17 @@ final class FavoriteCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
+    private lazy var likedButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(systemName: "heart.fill"), for: .normal)
+        button.backgroundColor = .lightGray
+        button.tintColor = .red
+        button.layer.cornerRadius = 12
+        button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3).cgColor
+        button.addTarget(self, action: #selector(didTapFavoriteButton), for: .touchUpInside)
+        return button
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -65,6 +82,17 @@ final class FavoriteCollectionViewCell: UICollectionViewCell {
         ])
         
         imageView.layer.insertSublayer(gradientLayer, at: .zero)
+        
+        addSubview(likedButton)
+        likedButton.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            likedButton.topAnchor.constraint(equalTo: imageView.topAnchor, constant: 15.0),
+            likedButton.trailingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: -15.0),
+            likedButton.heightAnchor.constraint(equalToConstant: 40.0),
+            likedButton.widthAnchor.constraint(equalToConstant: 40.0)
+        ])
+        
+        
     }
     
     required init?(coder: NSCoder) {
@@ -74,6 +102,13 @@ final class FavoriteCollectionViewCell: UICollectionViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         gradientLayer.frame = bounds
+    }
+    
+    @objc private func didTapFavoriteButton() {
+        guard let favorite = favorite else {
+            return
+        }
+        self.favoriteDelegate?.didTapLikedButton(item: favorite)
     }
 }
 
