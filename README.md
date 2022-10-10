@@ -6,6 +6,7 @@ See the following technologies used in the development of the app: <br/>
 -Swift <br/>
 -UIKit <br/>
 -Programmatic UI <br/>
+-Core Data <br>
 -MVC Desing Patterns <br/>
 -CollectionView <br/>
 -CollectionViewCell <br/>
