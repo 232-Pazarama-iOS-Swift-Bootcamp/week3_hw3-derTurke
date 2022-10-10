@@ -13,6 +13,4 @@ See the following technologies used in the development of the app:
 -Alert
 
 ## Preview
-<video width="250" height="541" autoplay>
-  <source src="https://streamable.com/e/zi6vht?autoplay=1&nocontrols=1" type="video/mp4">
-</video>
+<video src="https://streamable.com/e/zi6vht?autoplay=1&nocontrols=1" width="250" height="541" autoplay/>
